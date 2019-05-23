@@ -27,28 +27,28 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Sekar Ayu Safitri
+ * @author ACER
  */
 @Entity
 @Table(name = "EMPLOYEES")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")
-    , @NamedQuery(name = "Employees.findByEmployeeId", query = "SELECT e FROM Employees e WHERE e.employeeId = :employeeId")
-    , @NamedQuery(name = "Employees.findByFirstName", query = "SELECT e FROM Employees e WHERE e.firstName = :firstName")
-    , @NamedQuery(name = "Employees.findByLastName", query = "SELECT e FROM Employees e WHERE e.lastName = :lastName")
-    , @NamedQuery(name = "Employees.findByEmail", query = "SELECT e FROM Employees e WHERE e.email = :email")
-    , @NamedQuery(name = "Employees.findByPhoneNumber", query = "SELECT e FROM Employees e WHERE e.phoneNumber = :phoneNumber")
-    , @NamedQuery(name = "Employees.findByHireDate", query = "SELECT e FROM Employees e WHERE e.hireDate = :hireDate")
-    , @NamedQuery(name = "Employees.findBySalary", query = "SELECT e FROM Employees e WHERE e.salary = :salary")
-    , @NamedQuery(name = "Employees.findByCommissionPct", query = "SELECT e FROM Employees e WHERE e.commissionPct = :commissionPct")})
+    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
+    , @NamedQuery(name = "Employee.findByEmployeeId", query = "SELECT e FROM Employee e WHERE e.Id = :employeeId")
+    , @NamedQuery(name = "Employee.findByFirstName", query = "SELECT e FROM Employee e WHERE e.firstName = :firstName")
+    , @NamedQuery(name = "Employee.findByLastName", query = "SELECT e FROM Employee e WHERE e.lastName = :lastName")
+    , @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email")
+    , @NamedQuery(name = "Employee.findByPhoneNumber", query = "SELECT e FROM Employee e WHERE e.phoneNumber = :phoneNumber")
+    , @NamedQuery(name = "Employee.findByHireDate", query = "SELECT e FROM Employee e WHERE e.hireDate = :hireDate")
+    , @NamedQuery(name = "Employee.findBySalary", query = "SELECT e FROM Employee e WHERE e.salary = :salary")
+    , @NamedQuery(name = "Employee.findByCommissionPct", query = "SELECT e FROM Employee e WHERE e.commissionPct = :commissionPct")})
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "EMPLOYEE_ID")
-    private BigDecimal id;
+    private Integer Id;
     @Column(name = "FIRST_NAME")
     private String firstName;
     @Basic(optional = false)
@@ -70,41 +70,41 @@ public class Employee implements Serializable {
     private BigDecimal commissionPct;
     @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "DEPARTMENT_ID")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Departments departmentId;
+    private Department departmentId;
     @OneToMany(mappedBy = "managerId", fetch = FetchType.LAZY)
-    private List<Employee> employeesList;
+    private List<Employee> employeeList;
     @JoinColumn(name = "MANAGER_ID", referencedColumnName = "EMPLOYEE_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee managerId;
     @JoinColumn(name = "JOB_ID", referencedColumnName = "JOB_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Jobs jobId;
+    private Job jobId;
     @OneToMany(mappedBy = "managerId", fetch = FetchType.LAZY)
-    private List<Departments> departmentsList;
+    private List<Department> departmentList;
 
     public Employee() {
     }
 
-    public Employee(BigDecimal id) {
-        this.id = id;
+    public Employee(Integer Id) {
+        this.Id = Id;
     }
 
-     public Employee(BigDecimal id, String lastName, String email, Date hireDate) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String email, BigDecimal salary) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.hireDate = hireDate;
+        this.salary = salary;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setId(Integer employeeId) {
+        this.Id = employeeId;
     }
 
-     public String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -160,21 +160,21 @@ public class Employee implements Serializable {
         this.commissionPct = commissionPct;
     }
 
-    public Departments getDepartmentId() {
+    public Department getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Departments departmentId) {
+    public void setDepartmentId(Department departmentId) {
         this.departmentId = departmentId;
     }
 
     @XmlTransient
-    public List<Employee> getEmployeesList() {
-        return employeesList;
+    public List<Employee> getEmployeeList() {
+        return employeeList;
     }
 
-    public void setEmployeesList(List<Employee> employeesList) {
-        this.employeesList = employeesList;
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
     public Employee getManagerId() {
@@ -185,27 +185,27 @@ public class Employee implements Serializable {
         this.managerId = managerId;
     }
 
-    public Jobs getJobId() {
+    public Job getJobId() {
         return jobId;
     }
 
-    public void setJobId(Jobs jobId) {
+    public void setJobId(Job jobId) {
         this.jobId = jobId;
     }
 
     @XmlTransient
-    public List<Departments> getDepartmentsList() {
-        return departmentsList;
+    public List<Department> getDepartmentList() {
+        return departmentList;
     }
 
-    public void setDepartmentsList(List<Departments> departmentsList) {
-        this.departmentsList = departmentsList;
+    public void setDepartmentList(List<Department> departmentList) {
+        this.departmentList = departmentList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -216,7 +216,7 @@ public class Employee implements Serializable {
             return false;
         }
         Employee other = (Employee) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -224,7 +224,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "models.Employees[ employeeId=" + id + " ]";
+        return "models.Employee[ employeeId=" + Id + " ]";
     }
     
 }
